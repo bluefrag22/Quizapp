@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styling.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app">
+        <!-- home page  -->
+        <div class="homesection" id="homesection">
+            <h2 id="highscore">score:20</h2>
+            <div class="img">
+                <h3>welcome to </h3>
+                <img src="./img/Group 1.png" alt="logo"> <br>
+            </div>
+
+            <button id="startbtn">start quiz</button>
+        </div>
+
+        <!-- questiontab -->
+        <div class="questionsection hide" id="questionsection">
+            <button class="backbutton" id="backbtn"> back </button>
+            <h2 class="num0fquiz" id="num0fquiz">02 0f 10</h2>
+
+            <div class="questionarea">
+                <h2 id="quizquestions">questions</h2>
+                <div class="ansbuttons" id="ansbuttons">
+                    <button class="btns">answer1</button>
+                    <button class="btns" >answer2</button>
+                    <button class="btns" >answer3</button>
+                    <button class="btns" >answer4</button>
+                </div> 
+            </div>
+            <button class="next hide" id="next"> next </button>
+        </div>
+
+        <!-- result page -->
+         <div class="result hide" id="result">
+            <h2 class="congrat">congrat</h2>
+
+            <div class="message" >
+                <h2 class="scoretext" id="message">you score </h2>
+                <h2 class="score" id="score">4/5</h2>
+            </div>
+
+            <div class="buttoncontainer">
+                <button id="replay">replay</button>
+                <button id="home">home</button> 
+            </div>
+         </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
