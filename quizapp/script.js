@@ -14,11 +14,18 @@ let scoretxt = document.getElementById("score");
 let scoremessage = document.getElementById("message");
 const resultpage = document.getElementById("result");
 
+// audio element
+let audio = document.getElementById("");
+
+
+let youwinsfx = document.getElementById("winaudio")
+let booingsfx = document.getElementById("youfail")
+
 // Quiz state variables
 let currentQuestionIndex = 0;
 let score = 0;
 let highscore = 0;
-let questiontrackernum = 0;
+// let questiontrackernum = 0;
 
 // Quiz data
 const quizData = [
@@ -72,16 +79,24 @@ const quizData = [
 ];
 
 // Event Listeners
-startbutton.addEventListener('click', homepagestart)
-backbtn.addEventListener('click', goback)
+startbutton.addEventListener('click',()=>{
+    homepagestart();
+    btnclick();
+    
+} )
+backbtn.addEventListener('click',()=>{
+    btnclick();
+    goback();
+})
 nextbtn.addEventListener('click',nextbutton)
 
 
 // functions 
+console.log(currentQuestionIndex);
 
 // question tracker 
 function pagetracker(){
-    questiontrackernum++
+    let questiontrackernum = currentQuestionIndex +1
     tracker.innerHTML = "0"+questiontrackernum +  "/ 05"
 }
 
@@ -93,9 +108,12 @@ function highscr(){
     }
 }
 
+console.log(score);
+
 // Start the quiz from the homepage
 function homepagestart(){
     pagetracker();
+    currentQuestionIndex =0
     console.log(resultpage + "hello")
     if(startbutton.style.display !== "none"){
         homepage.classList.add("hide")
@@ -113,7 +131,7 @@ function startquiz(){
 
 // Load questions for the quiz
 function loadquestions(){
-    questiontrackernum =  currentQuestionIndex +1
+    questiontrackernum =  currentQuestionIndex
 
     nextbtn.classList.add("hide")
     reset();
@@ -133,7 +151,7 @@ function loadquestions(){
         buttonelement.classList.add("btns")
         buttonelement.innerHTML = options.text;
         ansbox.appendChild(buttonelement);
-        console.log("button appended to ansbox");
+        
 
         if(options.correctAnswer){
             buttonelement.dataset.correctAnswer =options.correctAnswer
@@ -145,16 +163,19 @@ function loadquestions(){
     
 // Handle answer selection
 function selectanwser(e){
+    
     const selectedbutton = e.target;
     const iscorrect = selectedbutton.dataset.correctAnswer
 
     if(iscorrect){
         score++;
+        correctaudio();
         selectedbutton.classList.add("correct")
         answerselected()
         nextbtn.classList.remove("hide")
     }
     else{
+        wrongsfx();
         selectedbutton.classList.add("incorrect")
         answerselected()
         nextbtn.classList.remove("hide")
@@ -172,12 +193,15 @@ function answerselected(){
         });
 }
 
-
+// use to move between questions 
 function nextbutton(){
+    console.log(score);
+    btnclick();
      pagetracker()
-    if (currentQuestionIndex < quizData.length-1)
+     currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length)
         {
-            currentQuestionIndex++
+        
             loadquestions();
         }else{
             questionpage.classList.add("hide");
@@ -187,29 +211,33 @@ function nextbutton(){
 
 }
 
-
+// that handle the result page 
 function result(){
     highscr()
     resultpage.classList.remove("hide")
     if (score === 5){
         scoremessage.innerHTML  = "Champ! Perfect Score!";
+        congratsfx();
+        
     } else if (score >= 3){
-        scoremessage.innerHTML = "Good Job!";
+        scoremessage.innerHTML = "Good Job!"
+        congratsfx();
     } else {
         scoremessage.innerHTML = "Damn, you suck!";
+        youfail();
     }
 
     scoretxt.innerHTML = score + "/"+ 5
 }
 
-
+// reset the code 
 function reset(){
     while(ansbox.firstChild){
         ansbox.removeChild(ansbox.firstChild);
     }
 }
     
-
+// back button 
 function goback(){
     if(questionpage.style.display !== "none"){
         questionpage.classList.add("hide")
@@ -217,21 +245,57 @@ function goback(){
     }
 }
 
+// audio funtions 
+function btnclick(){
+    var audio = document.getElementById("audio");
+    audio.play();
+}
+
+function wrongsfx(){
+      const incorrectsfx = document.getElementById("wronaudio")
+    incorrectsfx.play();
+   
+}
+function correctaudio(){
+    const correctsfx = document.getElementById("correctaudio");
+    correctsfx.play();
+}
+function congratsfx(){
+    const hurry = document.getElementById("winaudio");
+    hurry.play();
+}
+
+function youfail(){
+    const boosfx = document.getElementById("youfail");
+    boosfx.play();
+}
+
+
+
 homebtn.addEventListener('click',()=>{
     if(!resultpage.classList.contains("hide")){
         resultpage.classList.add("hide");
         homepage.classList.remove("hide");
         currentQuestionIndex = 0;
+        questiontrackernum = 1
     }
+    btnclick();
     
 })
 
 replaybtn.addEventListener('click', ()=>{
     if(!resultpage.classList.contains("hide"))
-    {
+    {  
         resultpage.classList.add("hide");
+        currentQuestionIndex= 0;
+        questiontrackernum =1
         questionpage.classList.remove("hide");
-        currentQuestionIndex=0
+        startquiz();
+        
     }
+    
+    
+    btnclick();
     console.log(replaybtn);
 })
+
